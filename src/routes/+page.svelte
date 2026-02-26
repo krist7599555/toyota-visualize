@@ -3,7 +3,6 @@
 	import * as v from 'valibot';
 	import * as es from 'es-toolkit';
 	import { flip } from 'svelte/animate';
-	import { E } from '../../.svelte-kit/output/server/chunks';
 
 	const SCORE_MODES = [
 		{ key: 'score_total', label: 'Total', desc: 'Average or all score' },
