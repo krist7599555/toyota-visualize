@@ -12,7 +12,7 @@
 	] as const;
 
 	let score_mode = $state<'score_total' | 'score_PME' | 'score_EE' | 'score_PS'>('score_total');
-	let sort_mode = $state<'section' | 'score_curr'>('score_curr');
+	let sort_mode = $state<'section' | 'score_curr'>('section');
 	let score_csv = $state(`
 department,section,score_PME,score_EE,score_PS
 ADM,AC,78,44,61
@@ -185,6 +185,18 @@ PS,Problem Solving,Score
 			scores
 		};
 	});
+
+	function handleEditScore() {
+		score_csv = prompt('ข้อมูลใหม่', score_csv) || score_csv;
+	}
+
+	$effect(() => {
+		window.onerror = function (message, source, lineno, colno, error) {
+			console.error('Caught globally:', message);
+			alert(`${message}`);
+			return false;
+		};
+	});
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -226,12 +238,7 @@ PS,Problem Solving,Score
 				onclick={() => (sort_mode = sort_mode == 'score_curr' ? 'section' : 'score_curr')}
 				>เรียงตามคะแนน
 			</button>
-			<button
-				type="button"
-				class="px-3 py-1"
-				onclick={() => (score_csv = prompt('ข้อมูลใหม่', score_csv) || score_csv)}
-				>แก้ข้อมูล
-			</button>
+			<button type="button" class="px-3 py-1" onclick={handleEditScore}> แก้ข้อมูล </button>
 		</div>
 	</div>
 	<div class="mx-auto mt-6 grid w-fit grid-cols-4 gap-4">
