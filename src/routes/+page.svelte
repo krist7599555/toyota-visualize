@@ -5,7 +5,7 @@
 	import { flip } from 'svelte/animate';
 
 	const SCORE_MODES = [
-		{ key: 'score_total', label: 'Total', desc: 'Average or all score' },
+		{ key: 'score_total', label: 'Total', desc: 'Average of all score\n(PME + EE + PS)' },
 		{ key: 'score_PME', label: 'PME', desc: 'Professional & Management Excellence Score' },
 		{ key: 'score_EE', label: 'EE', desc: 'Employee Engagement Score' },
 		{ key: 'score_PS', label: 'PS', desc: 'Problem Solving Score' }
@@ -208,15 +208,15 @@ PS,Problem Solving,Score
 		}
 	}}
 >
-	<div class="mt-4 flex justify-center gap-4">
+	<div class="mt-4 flex flex-wrap justify-center gap-4">
 		<div
 			aria-label="Scores Select"
-			class="flex w-fit justify-center divide-x divide-slate-300 rounded border border-slate-300 shadow"
+			class="flex w-fit flex-wrap justify-center divide-x divide-slate-300 rounded border border-slate-300 text-balance shadow"
 		>
 			{#each SCORE_MODES as mode (mode.key)}
 				<button
 					type="button"
-					class="block w-45 py-1"
+					class="block w-45 py-1 whitespace-pre-line"
 					class:bg-green-200={score_mode == mode.key}
 					onclick={() => (score_mode = mode.key)}
 				>
@@ -241,7 +241,7 @@ PS,Problem Solving,Score
 			<button type="button" class="px-3 py-1" onclick={handleEditScore}> แก้ข้อมูล </button>
 		</div>
 	</div>
-	<div class="mx-auto mt-6 grid w-fit grid-cols-4 gap-4">
+	<div class="mx-auto mt-6 grid w-fit gap-4 sm:grid-cols-2 md:grid-cols-4">
 		{#each Object.values(es.groupBy(data.scores, (d) => d.department)) as departments}
 			{@const avg_score = Math.floor(
 				es.sumBy(departments, (d) => d.score_curr) / departments.length
