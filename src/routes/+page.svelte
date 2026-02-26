@@ -211,7 +211,7 @@ PS,Problem Solving,Score
 	<div class="mt-4 flex flex-wrap justify-center gap-4">
 		<div
 			aria-label="Scores Select"
-			class="flex w-fit flex-wrap justify-center divide-x divide-slate-300 rounded border border-slate-300 text-balance shadow"
+			class="grid w-fit grid-cols-2 justify-center rounded border border-slate-300 text-balance shadow md:grid-cols-4 md:divide-x md:divide-slate-300"
 		>
 			{#each SCORE_MODES as mode (mode.key)}
 				<button
