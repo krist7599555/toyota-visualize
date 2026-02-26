@@ -200,15 +200,16 @@ PS,Problem Solving,Score
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<section
-	class="bg-white"
+<div
+	class="flex min-h-screen flex-col bg-white"
 	ondblclick={(e) => {
 		if (e.target == e.currentTarget) {
 			e.currentTarget.requestFullscreen();
 		}
 	}}
 >
-	<div class="mt-4 flex flex-wrap justify-center gap-4">
+	<!-- BEGIN actions -->
+	<section class="mt-4 flex flex-wrap justify-center gap-4">
 		<div
 			aria-label="Scores Select"
 			class="grid w-fit grid-cols-2 justify-center rounded border border-slate-300 text-balance shadow md:grid-cols-4 md:divide-x md:divide-slate-300"
@@ -240,8 +241,11 @@ PS,Problem Solving,Score
 			</button>
 			<button type="button" class="px-3 py-1" onclick={handleEditScore}> แก้ข้อมูล </button>
 		</div>
-	</div>
-	<div class="mx-auto mt-6 grid w-fit gap-4 sm:grid-cols-2 md:grid-cols-4">
+	</section>
+	<!-- END actions -->
+
+	<!-- BEGIN data points -->
+	<section class="mx-auto mt-6 mb-6 grid w-fit gap-4 sm:grid-cols-2 md:grid-cols-4">
 		{#each Object.values(es.groupBy(data.scores, (d) => d.department)) as departments}
 			{@const avg_score = Math.floor(
 				es.sumBy(departments, (d) => d.score_curr) / departments.length
@@ -305,5 +309,12 @@ PS,Problem Solving,Score
 				</div>
 			</div>
 		{/each}
-	</div>
-</section>
+	</section>
+	<!-- END data points -->
+
+	<p class="mt-auto mb-4 text-center text-xs text-balance opacity-40">
+		* แนวทางการทดสอบนี้อ้างอิงจากหลักการวางแผนกลยุทธ์ Hoshin Kanri ซึ่งคิดค้นโดยคุณ Yoji Akao
+		ในช่วงทศวรรษ 1950
+		เพื่อสร้างความสอดคล้องระหว่างเป้าหมายระยะยาวขององค์กรกับการปฏิบัติงานในแต่ละวัน
+	</p>
+</div>
