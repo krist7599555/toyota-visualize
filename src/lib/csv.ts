@@ -1,41 +1,26 @@
-/**
- * Parses a CSV string into an array of objects, validated by the given Valibot schema.
- * Automatically attempts to convert numeric strings to numbers.
- *
- * @param csv The CSV string to parse
- * @returns An array of validated objects
- */
-export function parse(csv: string): Record<string, any[]>[] {
-	const lines = csv
-		.trim()
-		.split('\n')
-		.filter((line) => line.trim() !== '');
-	if (lines.length === 0) return [];
+import * as es from 'es-toolkit';
+
+export function parse<T extends Record<string, string | number>>(csv: string): T[] {
+	const lines = csv.trim().split('\n');
+	if (lines.length < 2) return [];
 
 	const headers = lines[0].split(',').map((h) => h.trim());
-	const rows = lines.slice(1);
+	const dataLines = lines.slice(1);
 
-	const records = rows.map((row) => {
-		const values = row.split(',');
-		const record: Record<string, any> = {};
-		headers.forEach((header, i) => {
-			const value = values[i]?.trim();
-
-			// Simple heuristic: if the value is purely numeric, parse it as a number
-			// This allows the CSV data to satisfy v.number() schemas.
-			if (
-				value !== undefined &&
-				value !== '' &&
-				!isNaN(Number(value)) &&
-				/^-?\d+(\.\d+)?$/.test(value)
-			) {
-				record[header] = Number(value);
-			} else {
-				record[header] = value;
-			}
-		});
-		return record;
+	return dataLines.map((line) => {
+		const values = line.split(',').map(autoTypeCoerce);
+		const pairs = es.zip(headers, values);
+		return Object.fromEntries(pairs) as T;
 	});
+}
 
-	return records;
+/**
+ * Coerces a string into a number if possible,
+ * otherwise returns the original trimmed string.
+ */
+function autoTypeCoerce(value: string): string | number {
+	const trimmed = value.trim();
+	if (trimmed === '') return trimmed;
+	const num = Number(trimmed);
+	return !isNaN(num) ? num : trimmed;
 }
