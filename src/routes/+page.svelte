@@ -208,6 +208,8 @@ PS,Problem Solving,Score
 		}
 	}}
 >
+	<h1 class="sr-only">Toyota Performance Score</h1>
+
 	<!-- BEGIN actions -->
 	<section class="mt-4 flex flex-wrap justify-center gap-4">
 		<div
@@ -272,6 +274,7 @@ PS,Problem Solving,Score
 							animate:flip={{ duration: 900 }}
 							class="relative h-20 w-14 rounded border border-slate-300 bg-slate-50 p-0.5 text-xs shadow"
 						>
+							<h3 class="sr-only">{sec.section_name}</h3>
 							<div
 								class="absolute right-0 bottom-0 left-0 bg-green-400 transition-all duration-1000"
 								style="
